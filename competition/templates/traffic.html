@@ -1,0 +1,278 @@
+<!-- mapboxgl.accessToken = 'pk.eyJ1IjoiZ2F5YXRocmkxIiwiYSI6ImNsYTE0OGdwaDAxenIzcG16bjc5OHg0MzAifQ.4Id6XVvt_DjBiOGm9lLv5Q'; -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <link
+        href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css"
+        rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css"
+    />
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .img1{
+            width: 100%;
+        }
+        .img-container{
+            position:relative;
+            width: 100%;
+        }
+        .text{
+            position:absolute;
+            top: 40%;
+            left: 5%;
+            color: #fff;
+            font-size: 70px;
+        }
+        .card{
+            position: flex;
+            width:300px;
+            height: 250px;
+        } 
+        .card-container{
+            padding-left: 220px;
+            padding-top: 200px;
+            background-color: currentcolor;
+            padding-bottom: 200px;
+        }
+
+        #map {
+            display: none;
+        }
+        
+        /* Styles for the displayed map */
+        #map.displayed {
+            position: absolute;
+            width: 40%;
+            height: 40%;
+            margin-top: 5%;
+            margin-left: 30%;   
+        }
+        .form{
+            padding-top: 2%;
+            background-color:aliceblue;
+            padding-bottom: 5%;
+        }
+        #locationMessage{
+            padding-top: 5%;
+            font-size: 50px;
+            padding-bottom: 5%;
+
+        }
+        .img2{
+            width: 25%;
+            height: 25%;
+        }
+        .img3{
+            width: 50%;
+            height: 25%;
+        }
+        .image-container1{
+            margin-top: 35%;
+            margin-left: 35%;
+            margin-bottom: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">SustainMove</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#card-container">About SustainMove</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Traffic Predictor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact Us</a>
+              </li>
+          </ul>
+          
+        </div>
+      </nav>
+
+    <div class="img-container">
+        <img class="img1" src="{{ url_for('static', filename='traffic.png') }}" alt="Traffic Image">
+        <div class="text">
+            <p>TRAFFIC</p>
+        </div>
+    </div>
+
+    <div class ="card-container">
+        <div class = "row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Our Motive</h5>
+                    <p class="card-text"> A software system for traffic management and optimization involves a combination of planning, data analysis, software development, and collaboration with city authorities.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card" >
+                    <div class="card-body">
+                    <h5 class="card-title">Our Vision</h5>
+                    <p class="card-text">Objectives of our traffic management and optimization system is to reduce congestion, improve traffic flow, and minimize emissions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Tech Used:</h5>
+                    <p class="card-text"> Used real-time data streams, machine learning models, and optimization algorithms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="form" method="POST" onsubmit="searchLocation(); return false;">
+        <input type="search" name="start_location" placeholder="Enter the start location" aria-label="Search">
+        <input type="search" name="end_location" placeholder="Enter the end location" aria-label="Search">
+        <button type="submit">Search</button>
+    </form>
+    <button type="button" onclick="showMap()">Show Map</button>
+    
+    <p id="locationMessage">Please Enter a valid Location</p>
+    <div id="map"></div>
+    <div class="image-container1">
+        <img class="img2" src="{{ url_for('static', filename='data1.png') }}" alt="Traffic Image" style="display: none;">
+        <img class="img3" src="{{ url_for('static', filename='data2.png') }}" alt="Traffic Image" style="display: none;">
+    </div>
+    <div id="contact">
+        <h2>Contact Us</h2>
+        
+        <p>If you have any questions or need assistance, feel free to get in touch with us.</p>
+        
+        <p>Email: <a href="mailto:gayugopi14@example.com">email@gmail.com</a></p>
+        
+        <p>By using our services, you agree to our <a href="/terms-and-conditions">Terms and Conditions</a>.</p>
+    </div>
+<script>
+
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2F5YXRocmkxIiwiYSI6ImNsYTE0OGdwaDAxenIzcG16bjc5OHg0MzAifQ.4Id6XVvt_DjBiOGm9lLv5Q';
+
+    // Function to initialize and show the map
+    function initMap() {
+        console.log('Initializing map...');
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [80.27019, 13.08345], // San Francisco coordinates
+            zoom: 8
+        });
+
+        // Specify your start and end coordinates here
+        const startCoords = [80.27019, 13.08345]; // San Francisco
+        const endCoords = [80.08307, 12.88621]; // Los Angeles
+
+        // Fetch the route data from Mapbox Directions API
+        fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords[0]},${startCoords[1]};${endCoords[0]},${endCoords[1]}?geometries=geojson&access_token=${mapboxgl.accessToken}`)
+            .then(response => response.json())
+            .then(data => {
+                // Calculate the route distance
+                const routeDistance = data.routes[0].distance;
+
+                // Define the desired distance in meters
+                const desiredDistance = 3616300;
+
+                // Check if the route distance is greater than the desired distance
+                if (routeDistance > desiredDistance) {
+                    alert('The given route distance is greater than the desired distance.');
+                    return;
+                }
+
+                const route = {
+                    type: 'Feature',
+                    properties: {},
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: data.routes[0].geometry.coordinates
+                    }
+                };
+
+                map.on('load', function () {
+                    map.addSource('route', {
+                        type: 'geojson',
+                        data: route
+                    });
+
+                    map.addLayer({
+                        id: 'route',
+                        type: 'line',
+                        source: 'route',
+                        layout: {
+                            'line-join': 'round',
+                            'line-cap': 'round'
+                        },
+                        paint: {
+                            'line-color': '#03AA46',
+                            'line-width': 8
+                        }
+                    });
+                });
+            })
+            .catch(error => console.error(error));
+    }
+
+    // Function to show the map when the form is submitted
+    function searchLocation() {
+        var startLocation = document.getElementById('start_location').value;
+            var endLocation = document.getElementById('end_location').value;
+
+        // Hide the message
+        
+    }
+    function showMap() {
+        document.getElementById('locationMessage').style.display = 'none';
+
+        // Display the map
+        var map = document.getElementById('map');
+        map.style.display = 'block';
+        map.classList.add('displayed');
+
+        var img2 = document.querySelector('.img2');
+        var img3 = document.querySelector('.img3');
+        img2.style.display = 'block';
+        img3.style.display = 'block';
+
+        // Initialize and show the map
+        initMap();
+    }
+</script>
