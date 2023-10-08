@@ -8,7 +8,7 @@ import json
 app = Flask(__name__)
 
 # Replace with your Mapbox access token
-MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZ2F5YXRocmkxIiwiYSI6ImNsYTE0OGdwaDAxenIzcG16bjc5OHg0MzAifQ.4Id6XVvt_DjBiOGm9lLv5Q'
+MAPBOX_ACCESS_TOKEN = 'your_access_key'
 
 def get_coordinates(location):
     geocoding_url = f'https://api.mapbox.com/geocoding/v5/mapbox.places/{location}.json?access_token={MAPBOX_ACCESS_TOKEN}'
